@@ -16,10 +16,7 @@ CREATE TABLE users
 CREATE TABLE organizers
 (
     user_email VARCHAR(255) PRIMARY KEY,
-    hackathon_id INT NOT NULL, -- Aggiungi questa colonna
-    CONSTRAINT fk_organizer_user FOREIGN KEY (user_email) REFERENCES users (email) ON DELETE CASCADE,
-    -- Aggiungi questo vincolo
-    CONSTRAINT fk_organizer_hackathon FOREIGN KEY (hackathon_id) REFERENCES hackathons (id) ON DELETE CASCADE
+    CONSTRAINT fk_organizer_user FOREIGN KEY (user_email) REFERENCES users (email) ON DELETE CASCADE
 );
 
 -- ============================
@@ -79,12 +76,11 @@ CREATE TABLE participants
 
 -- ============================
 -- 6. DOCUMENTI
--- CORREZIONE: Rinominato `document_path` in `filename` per coerenza con DocumentDaoImpl.java
 -- ============================
 CREATE TABLE documents
 (
     id            SERIAL PRIMARY KEY,
-    filename      VARCHAR(255) NOT NULL, -- Corretto da document_path
+    filename      VARCHAR(255) NOT NULL,
     upload_date   TIMESTAMP    NOT NULL DEFAULT NOW(),
     team_id       INT          NOT NULL,
     CONSTRAINT fk_document_team FOREIGN KEY (team_id) REFERENCES teams (id) ON DELETE CASCADE
@@ -109,7 +105,6 @@ CREATE TABLE requests
 
 -- ============================
 -- 8. VOTI
--- CORREZIONE: Unificata la tabella `votes` per rispecchiare esattamente VoteDaoImpl.java
 -- ============================
 CREATE TABLE votes
 (
@@ -119,13 +114,16 @@ CREATE TABLE votes
     judge_user_email VARCHAR(255) NOT NULL,
     hackathon_id     INT          NOT NULL,
     comment          TEXT,
-    document_id      INT, -- Aggiunto per coerenza con VoteDaoImpl.java
+    document_id      INT,
     CONSTRAINT fk_vote_team FOREIGN KEY (team_id) REFERENCES teams (id) ON DELETE CASCADE,
     CONSTRAINT fk_vote_judge FOREIGN KEY (judge_user_email) REFERENCES judges (user_email) ON DELETE CASCADE,
     CONSTRAINT fk_vote_hackathon FOREIGN KEY (hackathon_id) REFERENCES hackathons (id) ON DELETE CASCADE,
     CONSTRAINT fk_vote_document FOREIGN KEY (document_id) REFERENCES documents (id) ON DELETE SET NULL
 );
 
+-- ============================
+-- INSERIMENTO DATI DI ESEMPIO
+-- ============================
 
 INSERT INTO users (email, username, password, first_name, last_name)
 VALUES
@@ -150,7 +148,6 @@ VALUES
     ('sara.festa@example.com', 'sara_festa', 'pass_sara', 'Sara', 'Festa'),
     ('joshua.diroberto@example.com', 'joshua_diro', 'pass_joshua', 'Joshua', 'Di Roberto'),
     ('michele.poggi@example.com', 'michele_poggi', 'pass_michele', 'Michele', 'Poggi'),
-    ('viviana.rossi@example.com', 'viviana_rossi', 'pass_viviana', 'Viviana', 'Rossi'),
     ('myriam.sorrentino@example.com', 'myriam_sorrentino', 'pass_myriam', 'Myriam', 'Sorrentino'),
     ('raffaele.ruggiero@example.com', 'raffaele_ruggiero', 'pass_raffaele', 'Raffaele', 'Ruggiero'),
     ('alessio.paduano@example.com', 'alessio_paduano', 'pass_alessio', 'Alessio', 'Paduano'),
@@ -235,7 +232,6 @@ VALUES
     ('sara.festa@example.com', 4, NULL),
     ('joshua.diroberto@example.com', 1, NULL),
     ('michele.poggi@example.com', 2, NULL),
-    ('viviana.rossi@example.com', 3, NULL),
     ('myriam.sorrentino@example.com', 4, NULL),
     ('raffaele.ruggiero@example.com', 1, NULL),
     ('alessio.paduano@example.com', 2, NULL),
