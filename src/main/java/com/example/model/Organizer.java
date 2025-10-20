@@ -11,27 +11,15 @@ package com.example.model;
 public class Organizer extends User {
 
     /**
-     * L'ID dell'hackathon che questo organizzatore sta attualmente gestendo.
-     * Nota: Attualmente è una String, il che potrebbe essere incoerente con altri ID basati su interi.
-     */
-    private String HackathonID;
-
-    /**
-     * Costruisce un nuovo oggetto Organizer con tutti i dettagli richiesti per l'utente e l'organizzatore.
+     * Costruisce un nuovo oggetto Organizer con i dettagli dell'utente.
      *
      * @param email L'indirizzo email dell'organizzatore.
      * @param username Lo username univoco dell'organizzatore.
      * @param password La password dell'organizzatore.
      * @param first_name Il nome dell'organizzatore.
      * @param last_name Il cognome dell'organizzatore.
-     * @param HackathonID L'ID dell'hackathon a cui questo organizzatore è associato.
      */
-    public Organizer(String email, String username, String password, String first_name, String last_name,
-                     String HackathonID) {
+    public Organizer(String email, String username, String password, String first_name, String last_name) {
         super(email, username, password, first_name, last_name);
-        this.HackathonID = HackathonID;
     }
-
-
-
 }
